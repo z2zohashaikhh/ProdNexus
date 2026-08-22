@@ -4,12 +4,6 @@ const {
     createProductIntelligencePrompt
 } = require("../prompts/productIntelligencePrompt");
 
-/*
- * Generate product intelligence using Gemini.
- *
- * @param {Object} productData
- * @returns {Object} Parsed product intelligence
- */
 async function generateProductIntelligence(productData) {
     try {
         const prompt = createProductIntelligencePrompt(productData);
@@ -36,18 +30,14 @@ async function generateProductIntelligence(productData) {
         try {
             parsedResponse = JSON.parse(cleanedText);
         } catch (parseError) {
-            console.error("❌ Failed to parse Gemini JSON response:");
-
+            console.error("Gemini response was not valid JSON:");
             console.error(cleanedText);
-
             throw new Error("Gemini returned invalid JSON");
         }
 
         return parsedResponse;
-
     } catch (error) {
-        console.error("❌ Product intelligence generation failed:");
-        console.error(error);
+        console.error("LLM service error:", error.message);
         throw error;
     }
 }

@@ -16,7 +16,12 @@ export default function ProductInput({ onAnalyze, processing }) {
     }
 
     setError("");
-    onAnalyze();
+
+    onAnalyze({
+      mpn: mpn.trim(),
+      brand: brand.trim(),
+      description: description.trim()
+    });
   };
 
   return (
@@ -52,7 +57,9 @@ export default function ProductInput({ onAnalyze, processing }) {
 
           <div>
             <small>ENGINE STATUS</small>
-            <strong>READY FOR ANALYSIS</strong>
+            <strong>
+              {processing ? "ANALYZING PRODUCT" : "READY FOR ANALYSIS"}
+            </strong>
           </div>
         </div>
       </div>
@@ -76,6 +83,7 @@ export default function ProductInput({ onAnalyze, processing }) {
                 value={mpn}
                 onChange={(e) => setMpn(e.target.value)}
                 placeholder="MTR-4500X"
+                disabled={processing}
               />
 
               <span className="input-state">REQUIRED</span>
@@ -103,6 +111,7 @@ export default function ProductInput({ onAnalyze, processing }) {
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
                 placeholder="Siemens"
+                disabled={processing}
               />
 
               <span className="input-state">REQUIRED</span>
@@ -135,6 +144,7 @@ export default function ProductInput({ onAnalyze, processing }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="3-phase industrial induction motor for automation and manufacturing applications..."
+              disabled={processing}
             />
 
             <div className="textarea-corner">
@@ -157,7 +167,7 @@ export default function ProductInput({ onAnalyze, processing }) {
 
         <div className="form-footer">
           <div className="security-note">
-            <span className="security-icon">◇</span>
+            <span className="security-icon">‡</span>
 
             <div>
               <strong>SECURE ANALYSIS</strong>

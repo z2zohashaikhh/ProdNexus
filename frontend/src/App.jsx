@@ -9,6 +9,8 @@ import "./App.css";
 function App() {
   const [processing, setProcessing] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [analysis, setAnalysis] = useState(null);
+  const [error, setError] = useState("");
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({
@@ -17,18 +19,47 @@ function App() {
     });
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async (productData) => {
     setProcessing(true);
     setCompleted(false);
+    setAnalysis(null);
+    setError("");
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/products/analyze",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(productData)
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.error ||
+          data.message ||
+          "Product analysis failed."
+        );
+      }
+
+      setAnalysis(data);
       setProcessing(false);
       setCompleted(true);
 
       setTimeout(() => {
         scrollTo("insights");
       }, 400);
-    }, 5000);
+    } catch (error) {
+      console.error("Analysis error:", error);
+      setProcessing(false);
+      setCompleted(false);
+      setError(error.message || "Unable to analyze product.");
+    }
   };
 
   return (
@@ -48,8 +79,12 @@ function App() {
           <div className="section-heading">
             <div>
               <span className="section-index">01</span>
+
               <div>
-                <p className="section-kicker">PRODUCT ANALYSIS</p>
+                <p className="section-kicker">
+                  PRODUCT ANALYSIS
+                </p>
+
                 <h2>Start with what you know.</h2>
               </div>
             </div>
@@ -73,14 +108,28 @@ function App() {
               />
             </div>
           )}
+
+          {error && (
+            <div className="form-error">
+              <span>!</span>
+              {error}
+            </div>
+          )}
         </section>
 
-        <section id="insights" className="content-section insights-section">
+        <section
+          id="insights"
+          className="content-section insights-section"
+        >
           <div className="section-heading">
             <div>
               <span className="section-index">02</span>
+
               <div>
-                <p className="section-kicker">AI OUTPUT</p>
+                <p className="section-kicker">
+                  AI OUTPUT
+                </p>
+
                 <h2>Product intelligence.</h2>
               </div>
             </div>
@@ -93,6 +142,7 @@ function App() {
 
           <IntelligencePreview
             completed={completed}
+            analysis={analysis}
             onStart={() => scrollTo("analyze")}
           />
         </section>
