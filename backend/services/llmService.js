@@ -1,3 +1,4 @@
+// Product intelligence generation
 require("dotenv").config();
 
 const { GoogleGenAI } = require("@google/genai");
@@ -21,7 +22,7 @@ const ai = new GoogleGenAI({
 async function generateProductIntelligence(productData) {
     try {
         const prompt = `
-You are ProductIQ, an AI-powered product intelligence engine.
+You are ProdNexus, an AI-powered product intelligence engine.
 
 Analyze the provided product information and retrieved comparable products.
 
