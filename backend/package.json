@@ -1,5 +1,5 @@
 {
-  "name": "productiq-backend",
+  "name": "prodNexus-backend",
   "version": "1.0.0",
   "description": "AI-powered product intelligence backend for UniHack 2026",
   "main": "server.js",
