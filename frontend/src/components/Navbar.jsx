@@ -29,6 +29,11 @@ export default function Navbar({ onNavigate }) {
         <button onClick={() => onNavigate("insights")}>
           Insights
         </button>
+
+        {/* NEW: History */}
+        <button onClick={() => onNavigate("history")}>
+          History
+        </button>
       </nav>
 
       <div className="nav-status">

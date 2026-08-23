@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ProductInput from "./components/ProductInput";
 import Pipeline from "./components/Pipeline";
 import IntelligencePreview from "./components/IntelligencePreview";
+import AnalysisHistory from "./components/AnalysisHistory";
+
 import "./App.css";
+import "./components/AnalysisHistory.css";
 
 function App() {
   const [processing, setProcessing] = useState(false);
@@ -12,13 +16,48 @@ function App() {
   const [analysis, setAnalysis] = useState(null);
   const [error, setError] = useState("");
 
+  /*
+   * Initialize directly from localStorage (Prevents initial overwrite bug)
+   */
+  const [history, setHistory] = useState(() => {
+    try {
+      const savedHistory = localStorage.getItem("prodNexusAnalysisHistory");
+      if (savedHistory) {
+        const parsedHistory = JSON.parse(savedHistory);
+        if (Array.isArray(parsedHistory)) {
+          return parsedHistory;
+        }
+      }
+    } catch (err) {
+      console.error("Unable to load analysis history:", err);
+    }
+    return [];
+  });
+
+  /*
+   * Save history whenever it changes
+   */
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "prodNexusAnalysisHistory",
+        JSON.stringify(history)
+      );
+    } catch (err) {
+      console.error("Unable to save analysis history:", err);
+    }
+  }, [history]);
+
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({
       behavior: "smooth",
-      block: "start"
+      block: "start",
     });
   };
 
+  /*
+   * Analyze product
+   */
   const handleAnalyze = async (productData) => {
     setProcessing(true);
     setCompleted(false);
@@ -31,9 +70,9 @@ function App() {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(productData)
+          body: JSON.stringify(productData),
         }
       );
 
@@ -42,24 +81,85 @@ function App() {
       if (!response.ok || !data.success) {
         throw new Error(
           data.error ||
-          data.message ||
-          "Product analysis failed."
+            data.message ||
+            "Product analysis failed."
         );
       }
 
+      /*
+       * Store current analysis
+       */
       setAnalysis(data);
       setProcessing(false);
       setCompleted(true);
 
+      /*
+       * Add analysis to history
+       */
+      const historyItem = {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        createdAt: new Date().toISOString(),
+        analysis: data,
+      };
+
+      setHistory((previousHistory) => [
+        historyItem,
+        ...previousHistory,
+      ]);
+
+      /*
+       * Scroll to intelligence result
+       */
       setTimeout(() => {
         scrollTo("insights");
       }, 400);
-    } catch (error) {
-      console.error("Analysis error:", error);
+    } catch (err) {
+      console.error("Analysis error:", err);
+
       setProcessing(false);
       setCompleted(false);
-      setError(error.message || "Unable to analyze product.");
+      setError(
+        err.message || "Unable to analyze product."
+      );
     }
+  };
+
+  /*
+   * Open an old analysis
+   */
+  const handleViewHistory = (savedAnalysis) => {
+    setAnalysis(savedAnalysis);
+    setCompleted(true);
+    setProcessing(false);
+    setError("");
+
+    setTimeout(() => {
+      scrollTo("insights");
+    }, 100);
+  };
+
+  /*
+   * Delete one history item
+   */
+  const handleDeleteHistory = (id) => {
+    setHistory((previousHistory) =>
+      previousHistory.filter((item) => item.id !== id)
+    );
+  };
+
+  /*
+   * Clear all history
+   */
+  const handleClearHistory = () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to clear all analysis history?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setHistory([]);
   };
 
   return (
@@ -71,27 +171,29 @@ function App() {
       <Navbar onNavigate={scrollTo} />
 
       <main>
+        {/* =====================================================
+            HERO
+            ===================================================== */}
         <section id="engine" className="hero-section">
           <Hero onStart={() => scrollTo("analyze")} />
         </section>
 
+        {/* =====================================================
+            PRODUCT ANALYSIS
+            ===================================================== */}
         <section id="analyze" className="content-section">
           <div className="section-heading">
             <div>
               <span className="section-index">01</span>
-
               <div>
-                <p className="section-kicker">
-                  PRODUCT ANALYSIS
-                </p>
-
-                <h2>Start with what you know.</h2>
+                <p className="section-kicker">PRODUCT ANALYSIS</p>
+                <h2>Start With What You Know.</h2>
               </div>
             </div>
 
             <p className="section-description">
-              Give ProdNexus a few product details. Our AI retrieves
-              relevant catalog intelligence and builds a richer product profile.
+              Give ProdNexus a few product details. Our AI retrieves relevant
+              catalog intelligence and builds a richer product profile.
             </p>
           </div>
 
@@ -117,6 +219,9 @@ function App() {
           )}
         </section>
 
+        {/* =====================================================
+            INTELLIGENCE
+            ===================================================== */}
         <section
           id="insights"
           className="content-section insights-section"
@@ -124,13 +229,9 @@ function App() {
           <div className="section-heading">
             <div>
               <span className="section-index">02</span>
-
               <div>
-                <p className="section-kicker">
-                  AI OUTPUT
-                </p>
-
-                <h2>Product intelligence.</h2>
+                <p className="section-kicker">AI OUTPUT</p>
+                <h2>Product Intelligence.</h2>
               </div>
             </div>
 
@@ -146,12 +247,44 @@ function App() {
             onStart={() => scrollTo("analyze")}
           />
         </section>
+
+        {/* =====================================================
+            HISTORY
+            ===================================================== */}
+        <section
+          id="history"
+          className="content-section history-section"
+        >
+          <div className="section-heading">
+            <div>
+              <span className="section-index">03</span>
+              <div>
+                <p className="section-kicker">WORKSPACE</p>
+                <h2>Analysis History.</h2>
+              </div>
+            </div>
+
+            <p className="section-description">
+              Revisit product intelligence from your previous analysis
+              sessions.
+            </p>
+          </div>
+
+          <AnalysisHistory
+            history={history}
+            onView={handleViewHistory}
+            onDelete={handleDeleteHistory}
+            onClear={handleClearHistory}
+          />
+        </section>
       </main>
 
+      {/* =======================================================
+          FOOTER
+          ======================================================= */}
       <footer className="footer">
         <div className="footer-left">
           <div className="footer-logo">P</div>
-
           <div>
             <strong>ProdNexus</strong>
             <span>AI PRODUCT INTELLIGENCE</span>

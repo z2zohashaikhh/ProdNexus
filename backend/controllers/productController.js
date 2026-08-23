@@ -6,6 +6,42 @@ const {
     generateProductIntelligence
 } = require("../services/llmService");
 
+const calculateDecisionMetrics = (intelligence, retrievedProducts) => {
+    const keyFeatures = intelligence?.keyFeatures || [];
+    const strengths = intelligence?.strengths || [];
+    const weaknesses = intelligence?.weaknesses || [];
+    const count = (retrievedProducts || []).length;
+
+    let baseScore = 78;
+    baseScore += Math.min(keyFeatures.length * 3, 9);
+    baseScore += Math.min(strengths.length * 2, 6);
+    baseScore -= Math.min(weaknesses.length * 2, 6);
+    if (count >= 3) baseScore += 4;
+
+    const overallScore = Math.min(96, Math.max(62, baseScore));
+
+    let verdict = "STRONG CANDIDATE";
+    let verdictColor = "#b8ff4a";
+
+    if (overallScore < 72) {
+        verdict = "NEEDS REVIEW";
+        verdictColor = "#f59e0b";
+    } else if (overallScore < 84) {
+        verdict = "COMPETITIVE MATCH";
+        verdictColor = "#38bdf8";
+    }
+
+    return {
+        overallScore,
+        verdict,
+        verdictColor,
+        marketFit: Math.min(98, overallScore + 2),
+        specAdvantage: Math.min(95, overallScore - 3),
+        procurementRisk: overallScore >= 84 ? "LOW" : "MODERATE",
+        decisionRationale: intelligence?.overallInsight || `High structural match across ${count} catalog equivalents.`
+    };
+};
+
 const analyzeProduct = async (req, res) => {
     try {
         const {
@@ -23,7 +59,7 @@ const analyzeProduct = async (req, res) => {
 
         console.log("");
         console.log("==========================================");
-        console.log("PRODUCTIQ ANALYSIS STARTED");
+        console.log("PRODNEXUS ANALYSIS STARTED");
         console.log("==========================================");
         console.log("MPN:", mpn);
         console.log("Brand:", brand || "Not provided");
@@ -50,7 +86,10 @@ const analyzeProduct = async (req, res) => {
             retrievedProducts
         });
 
-        console.log("✅ Product intelligence generated");
+        const decisionScore = calculateDecisionMetrics(productIntelligence, retrievedProducts);
+        productIntelligence.decisionScore = decisionScore;
+
+        console.log(`✅ Product intelligence generated (Decision Score: ${decisionScore.overallScore}/100)`);
 
         return res.status(200).json({
             success: true,

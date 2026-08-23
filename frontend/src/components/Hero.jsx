@@ -3,25 +3,37 @@ import "./Hero.css";
 export default function Hero({ onStart }) {
   return (
     <section className="hero">
-      <div className="hero-orbit orbit-one"></div>
-      <div className="hero-orbit orbit-two"></div>
-      <div className="hero-orbit orbit-three"></div>
+      {/* Perspective Cyber Grid */}
+      <div className="hero-grid-plane"></div>
 
+      {/* Orbit Rings with Glowing Satellite Nodes */}
+      <div className="hero-orbit orbit-one">
+        <div className="orbit-node node-one"></div>
+      </div>
+      <div className="hero-orbit orbit-two">
+        <div className="orbit-node node-two"></div>
+      </div>
+      <div className="hero-orbit orbit-three">
+        <div className="orbit-node node-three"></div>
+      </div>
+
+      {/* Ambient Pulsing Glow Orbs */}
       <div className="hero-glow"></div>
+      <div className="hero-glow-secondary"></div>
 
+      {/* Vertical Holographic Scan Line */}
       <div className="hero-scan-line"></div>
 
       <div className="hero-content">
         <div className="hero-eyebrow">
           <span className="eyebrow-dot"></span>
           <span>AI-POWERED PRODUCT INTELLIGENCE</span>
+          <span className="eyebrow-radar"></span>
         </div>
 
         <h1 className="hero-title">
           <span className="title-main">Product Data.</span>
-          <span className="title-accent">
-            Intelligence, Built In.
-          </span>
+          <span className="title-accent">Intelligence, Built In.</span>
         </h1>
 
         <p className="hero-description">
@@ -35,8 +47,7 @@ export default function Hero({ onStart }) {
             className="hero-button"
             onClick={onStart}
           >
-            <span>Analyze  Product</span>
-            <span className="hero-arrow">→</span>
+            <span>Analyze Product</span>
           </button>
 
           <div className="hero-status">

@@ -1,3 +1,7 @@
+/* =========================================================
+   HERO SECTION - CYBERNETIC NEON MATRIX
+   ========================================================= */
+
 .hero {
   position: relative;
   width: 100%;
@@ -12,6 +16,19 @@
   text-align: center;
 }
 
+/* Perspective Cyber Grid */
+.hero-grid-plane {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(184, 255, 74, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184, 255, 74, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 65% 55% at 50% 40%, black 20%, transparent 80%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .hero-content {
   position: relative;
   z-index: 5;
@@ -20,18 +37,26 @@
   margin: 0 auto;
 }
 
+/* ---------- Eyebrow Badge ---------- */
+
 .hero-eyebrow {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
   margin-bottom: 25px;
+  padding: 5px 14px;
+  background: rgba(184, 255, 74, 0.04);
+  border: 1px solid rgba(184, 255, 74, 0.18);
+  border-radius: 999px;
   color: #a1aaa5;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.17em;
   line-height: 1;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .eyebrow-dot {
@@ -46,6 +71,24 @@
   animation: pulseDot 2s ease-in-out infinite;
 }
 
+.eyebrow-radar {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(184, 255, 74, 0.18), transparent);
+  transform: translateX(-100%);
+  animation: radarSwipe 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes radarSwipe {
+  0% { transform: translateX(-100%); }
+  50%, 100% { transform: translateX(100%); }
+}
+
+/* =========================================
+   HERO TITLE TYPOGRAPHY
+========================================= */
+
 .hero-title {
   display: flex;
   flex-direction: column;
@@ -54,24 +97,29 @@
   width: 100%;
   margin: 0;
   padding: 0;
-  font-family: Inter, sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-weight: 700;
-  letter-spacing: -0.055em;
-  line-height: 1;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
 }
 
 .title-main {
   display: block;
   color: #f4f7f8;
-  font-size: clamp(48px, 6vw, 76px);
+  font-size: clamp(40px, 5.5vw, 68px);
+  letter-spacing: -0.02em;
+  word-spacing: 0.05em;
 }
 
 .title-accent {
   display: block;
-  margin-top: 7px;
+  margin-top: 10px;
   color: #b8ff4a;
-  font-size: clamp(48px, 6vw, 76px);
-  text-shadow: 0 0 35px rgba(184, 255, 74, 0.1);
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  word-spacing: 0.05em;
+  text-shadow: 0 0 40px rgba(184, 255, 74, 0.22);
 }
 
 .hero-description {
@@ -83,6 +131,8 @@
   line-height: 1.75;
   letter-spacing: 0;
 }
+
+/* ---------- Actions & Buttons ---------- */
 
 .hero-actions {
   display: flex;
@@ -96,10 +146,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
   height: 48px;
   min-width: 185px;
-  padding: 0 20px;
+  padding: 0 24px;
   border: 1px solid rgba(184, 255, 74, 0.45);
   border-radius: 3px;
   background: rgba(184, 255, 74, 0.07);
@@ -107,8 +156,10 @@
   font-family: Inter, sans-serif;
   font-size: 12px;
   font-weight: 600;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: 0.25s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 18px rgba(184, 255, 74, 0.08);
 }
 
 .hero-button:hover {
@@ -116,16 +167,7 @@
   color: #050607;
   border-color: #b8ff4a;
   transform: translateY(-2px);
-  box-shadow: 0 12px 35px rgba(184, 255, 74, 0.12);
-}
-
-.hero-arrow {
-  font-size: 17px;
-  transition: transform 0.25s ease;
-}
-
-.hero-button:hover .hero-arrow {
-  transform: translateX(4px);
+  box-shadow: 0 8px 30px rgba(184, 255, 74, 0.35);
 }
 
 .hero-status {
@@ -146,6 +188,8 @@
   box-shadow: 0 0 9px rgba(86, 245, 154, 0.8);
   animation: pulseDot 1.8s ease-in-out infinite;
 }
+
+/* ---------- Capabilities Strip ---------- */
 
 .hero-capabilities {
   position: relative;
@@ -174,6 +218,7 @@
   color: #b8ff4a;
   font-family: monospace;
   font-size: 9px;
+  font-weight: 700;
 }
 
 .capability strong {
@@ -199,145 +244,163 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* ---------- Reactor Glows ---------- */
+
 .hero-glow {
   position: absolute;
   z-index: 0;
-  top: 100px;
+  top: 90px;
   left: 50%;
-  width: 420px;
-  height: 420px;
+  width: 480px;
+  height: 480px;
   transform: translateX(-50%);
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(184, 255, 74, 0.07) 0%,
-    rgba(184, 255, 74, 0.025) 35%,
+    rgba(184, 255, 74, 0.09) 0%,
+    rgba(184, 255, 74, 0.03) 40%,
     transparent 70%
   );
+  filter: blur(40px);
+  animation: reactorPulse 6s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
+.hero-glow-secondary {
+  position: absolute;
+  z-index: 0;
+  top: 130px;
+  left: 50%;
+  width: 600px;
+  height: 350px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(56, 189, 248, 0.04) 0%,
+    transparent 70%
+  );
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+@keyframes reactorPulse {
+  0% { transform: translateX(-50%) scale(0.92); opacity: 0.6; }
+  100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+}
+
+/* ---------- 3D Orbit Rings & Satellite Nodes ---------- */
+
 .hero-orbit {
   position: absolute;
-  z-index: 1;
-  top: 170px;
+  z-index: 2;
+  top: 165px;
   left: 50%;
-  width: 510px;
+  width: 520px;
   height: 180px;
   transform: translateX(-50%);
-  border: 1px solid rgba(184, 255, 74, 0.11);
+  border: 1px solid rgba(184, 255, 74, 0.14);
   border-radius: 50%;
   pointer-events: none;
 }
 
-.orbit-one {
-  animation: orbitRotate 8s linear infinite;
-}
-
-.orbit-two {
-  width: 620px;
-  height: 230px;
-  border-color: rgba(74, 228, 255, 0.07);
-  transform: translateX(-50%) rotate(60deg);
-  animation: orbitRotateReverse 12s linear infinite;
-}
-
-.orbit-three {
-  width: 420px;
-  height: 150px;
-  border-color: rgba(184, 255, 74, 0.06);
-  transform: translateX(-50%) rotate(-35deg);
-  animation: orbitRotate 14s linear infinite;
-}
-
-.hero-orbit::after {
-  content: "";
+.orbit-node {
   position: absolute;
-  top: 50%;
-  left: -3px;
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #b8ff4a;
-  box-shadow:
-    0 0 10px #b8ff4a,
-    0 0 25px rgba(184, 255, 74, 0.7);
+  box-shadow: 0 0 10px #b8ff4a, 0 0 20px rgba(184, 255, 74, 0.8);
 }
+
+.orbit-one {
+  animation: orbitRotate 14s linear infinite;
+}
+
+.node-one {
+  top: 50%;
+  left: -3px;
+  transform: translateY(-50%);
+}
+
+.orbit-two {
+  width: 640px;
+  height: 230px;
+  border-color: rgba(56, 189, 248, 0.1);
+  border-style: dashed;
+  transform: translateX(-50%) rotate(55deg);
+  animation: orbitRotateReverse 22s linear infinite;
+}
+
+.node-two {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8, 0 0 20px rgba(56, 189, 248, 0.8);
+}
+
+.orbit-three {
+  width: 440px;
+  height: 150px;
+  border-color: rgba(184, 255, 74, 0.08);
+  transform: translateX(-50%) rotate(-35deg);
+  animation: orbitRotate 18s linear infinite;
+}
+
+.node-three {
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+/* ---------- Holographic Scan Line ---------- */
 
 .hero-scan-line {
   position: absolute;
   z-index: 3;
   top: 0;
-  left: 8%;
-  width: 84%;
-  height: 1px;
+  left: 5%;
+  width: 90%;
+  height: 2px;
   background: linear-gradient(
     90deg,
-    transparent,
-    rgba(184, 255, 74, 0.45),
-    transparent
+    transparent 0%,
+    rgba(184, 255, 74, 0.6) 50%,
+    transparent 100%
   );
+  box-shadow: 0 0 12px rgba(184, 255, 74, 0.4);
   opacity: 0;
-  animation: scanHero 5s ease-in-out infinite;
+  animation: scanHero 5.5s ease-in-out infinite;
   pointer-events: none;
 }
 
 @keyframes orbitRotate {
-  from {
-    transform: translateX(-50%) rotate(0deg);
-  }
-
-  to {
-    transform: translateX(-50%) rotate(360deg);
-  }
+  from { transform: translateX(-50%) rotate(0deg); }
+  to { transform: translateX(-50%) rotate(360deg); }
 }
 
 @keyframes orbitRotateReverse {
-  from {
-    transform: translateX(-50%) rotate(60deg);
-  }
-
-  to {
-    transform: translateX(-50%) rotate(-300deg);
-  }
+  from { transform: translateX(-50%) rotate(55deg); }
+  to { transform: translateX(-50%) rotate(-305deg); }
 }
 
 @keyframes scanHero {
-  0% {
-    top: 5%;
-    opacity: 0;
-  }
-
-  15% {
-    opacity: 0.8;
-  }
-
-  50% {
-    opacity: 0.35;
-  }
-
-  85% {
-    opacity: 0.8;
-  }
-
-  100% {
-    top: 92%;
-    opacity: 0;
-  }
+  0% { top: 5%; opacity: 0; }
+  15% { opacity: 0.9; }
+  50% { opacity: 0.4; }
+  85% { opacity: 0.9; }
+  100% { top: 94%; opacity: 0; }
 }
 
 @keyframes pulseDot {
-  0%,
-  100% {
-    opacity: 0.45;
-    transform: scale(0.9);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
+  0%, 100% { opacity: 0.45; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
 }
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
 
 @media (max-width: 900px) {
   .hero {
@@ -357,7 +420,7 @@
   }
 
   .hero-orbit {
-    opacity: 0.7;
+    opacity: 0.65;
   }
 }
 
@@ -374,7 +437,7 @@
 
   .title-main,
   .title-accent {
-    font-size: clamp(39px, 11vw, 55px);
+    font-size: clamp(38px, 11vw, 54px);
   }
 
   .hero-description {

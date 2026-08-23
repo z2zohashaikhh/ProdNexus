@@ -20,47 +20,18 @@ export default function ProductInput({ onAnalyze, processing }) {
     onAnalyze({
       mpn: mpn.trim(),
       brand: brand.trim(),
-      description: description.trim()
+      description: description.trim(),
     });
   };
 
   return (
     <section className="input-section" id="product-input">
-      <div className="input-topline">
-        <span>01</span>
-        <div></div>
-        <span>INTELLIGENCE INITIALIZATION</span>
-      </div>
-
-      <div className="input-header">
-        <div className="input-heading">
-          <div className="section-label">
-            PRODUCT ANALYSIS
-          </div>
-
-          <h2>
-            Start with
-            <span> what you know.</span>
-          </h2>
-
-          <p>
-            Feed the engine minimal product information.
-            ProdNexus will discover, structure, normalize
-            and validate the intelligence behind it.
-          </p>
-        </div>
-
-        <div className="analysis-status">
-          <div className="status-icon">
-            <span></span>
-          </div>
-
-          <div>
-            <small>ENGINE STATUS</small>
-            <strong>
-              {processing ? "ANALYZING PRODUCT" : "READY FOR ANALYSIS"}
-            </strong>
-          </div>
+      <div className="input-status-bar">
+        <div className="status-indicator">
+          <span className={`status-orb ${processing ? "active" : ""}`}></span>
+          <span>
+            {processing ? "ENGINE STATUS: ANALYZING" : "ENGINE STATUS: READY"}
+          </span>
         </div>
       </div>
 
@@ -153,8 +124,7 @@ export default function ProductInput({ onAnalyze, processing }) {
           </div>
 
           <small>
-            Provide any product information currently available.
-            More context improves enrichment accuracy.
+            Provide any product information currently available. More context improves enrichment accuracy.
           </small>
         </div>
 
@@ -188,10 +158,7 @@ export default function ProductInput({ onAnalyze, processing }) {
                 PROCESSING INTELLIGENCE
               </>
             ) : (
-              <>
-                <span>GENERATE PRODUCT INTELLIGENCE</span>
-                <strong>↗</strong>
-              </>
+              <span>GENERATE PRODUCT INTELLIGENCE</span>
             )}
           </button>
         </div>
