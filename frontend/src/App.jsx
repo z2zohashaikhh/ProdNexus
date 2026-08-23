@@ -74,7 +74,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/products/analyze",
+        "https://prodnexus-backend.vercel.app/api/products/analyze",
         {
           method: "POST",
           headers: {
