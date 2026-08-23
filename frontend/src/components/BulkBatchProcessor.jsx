@@ -70,7 +70,7 @@ export default function BulkBatchProcessor({ onInspectProduct, onAnalyze }) {
       setBatchItems([...updated]);
 
       try {
-        const response = await fetch("http://localhost:5000/api/products/analyze", {
+        const response = await fetch("https://prodnexus-backend.vercel.app/api/products/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
