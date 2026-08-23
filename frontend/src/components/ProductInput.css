@@ -36,11 +36,14 @@
   box-shadow: 0 0 25px rgba(184, 255, 74, 0.3);
 }
 
-/* ---------- Status Bar & Indicator ---------- */
+/* ---------- Status Bar, Indicator & Mode Switcher ---------- */
 
 .input-status-bar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
   margin-bottom: 24px;
 }
 
@@ -80,6 +83,42 @@
   50% {
     opacity: 1;
   }
+}
+
+/* Mode Switcher Tabs */
+.input-mode-toggle {
+  display: inline-flex;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mode-tab {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #858f96;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 6px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.mode-tab:hover {
+  color: #f8fafc;
+}
+
+.mode-tab.active {
+  background: #141b20;
+  color: #b8ff4a;
+  border-color: rgba(184, 255, 74, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* ---------- Form & Fields ---------- */
@@ -360,11 +399,204 @@
   }
 }
 
+/* ==========================================================================
+   Bulk Batch Ingestion Component Styles
+   ========================================================================== */
+
+.bulk-batch-container {
+  margin-top: 10px;
+}
+
+.bulk-dropzone {
+  border: 2px dashed rgba(184, 255, 74, 0.35);
+  background: rgba(184, 255, 74, 0.02);
+  border-radius: 4px;
+  padding: 42px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bulk-dropzone:hover {
+  border-color: #b8ff4a;
+  background: rgba(184, 255, 74, 0.05);
+}
+
+.dropzone-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.bulk-dropzone h4 {
+  margin: 0 0 6px 0;
+  color: #f8fafc;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.bulk-dropzone p {
+  margin: 0;
+  color: #858f96;
+  font-size: 12px;
+}
+
+.batch-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #141b20;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.batch-file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.file-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  background: rgba(184, 255, 74, 0.15);
+  color: #b8ff4a;
+  border-radius: 2px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.batch-progress-panel {
+  margin-bottom: 16px;
+  background: #141b20;
+  padding: 14px 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(184, 255, 74, 0.2);
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+}
+
+.progress-meta strong {
+  color: #b8ff4a;
+  font-family: monospace;
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #b8ff4a;
+  transition: width 0.3s ease;
+}
+
+.batch-table-container {
+  overflow-x: auto;
+  background: #0f1418;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.batch-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.batch-table th {
+  padding: 12px 14px;
+  background: #141b20;
+  color: #858f96;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.batch-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+}
+
+.desc-cell {
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #94a3b8;
+}
+
+.score-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.status-pill {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.status-pill.pending { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
+.status-pill.processing { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+.status-pill.enriched { background: rgba(184, 255, 74, 0.15); color: #b8ff4a; }
+
+.table-inspect-btn {
+  background: rgba(184, 255, 74, 0.08);
+  border: 1px solid rgba(184, 255, 74, 0.3);
+  color: #b8ff4a;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.table-inspect-btn:hover {
+  background: rgba(184, 255, 74, 0.2);
+  border-color: #b8ff4a;
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 800px) {
   .input-section {
     padding: 28px 20px;
+  }
+
+  .input-status-bar {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .form-grid {
@@ -391,4 +623,56 @@
   .input-state {
     display: none;
   }
+}
+/* Batch Action Button Alignment */
+.batch-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap; /* Prevents wrapping */
+  gap: 16px;
+  padding: 14px 20px;
+  background: #141b20;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.batch-action-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.batch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 14px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.batch-btn.export-btn {
+  background: #b8ff4a;
+  color: #0b0f12;
+  border: 1px solid #b8ff4a;
+}
+
+.batch-btn.reset-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+}
+
+.batch-btn.reset-btn:hover:not(:disabled) {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
 }
