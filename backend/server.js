@@ -8,8 +8,7 @@ const productRoutes = require("./routes/productRoutes");
 
 const app = express();
 
-connectDB();
-
+// Middleware
 app.use(
     cors({
         origin: "*",
@@ -21,6 +20,7 @@ app.use(
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
+// Routes
 app.get("/", (req, res) => {
     res.status(200).json({
         success: true,
@@ -40,9 +40,18 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/products", productRoutes);
 
-const PORT = process.env.PORT || 5000;
+// Connect to MongoDB
+connectDB();
 
-app.listen(PORT, () => {
-    console.log("ProdNexus Backend Started");
-    console.log(`Server: http://localhost:${PORT}`);
-});
+// Export Express app for Vercel
+module.exports = app;
+
+// Local development
+if (process.env.NODE_ENV !== "production") {
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+        console.log("ProdNexus Backend Started");
+        console.log(`Server: http://localhost:${PORT}`);
+    });
+}
