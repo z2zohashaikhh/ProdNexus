@@ -49,16 +49,24 @@ function App() {
   }, [history]);
 
   const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   /*
    * Analyze product
    */
   const handleAnalyze = async (productData) => {
+    if (!productData || !productData.mpn || !productData.description) {
+      setError("Manufacturer Part Number and description are required.");
+      return;
+    }
+
     setProcessing(true);
     setCompleted(false);
     setAnalysis(null);
@@ -125,9 +133,11 @@ function App() {
   };
 
   /*
-   * Open an old analysis
+   * Open an analysis directly (used for history & bulk inspect)
    */
   const handleViewHistory = (savedAnalysis) => {
+    if (!savedAnalysis) return;
+
     setAnalysis(savedAnalysis);
     setCompleted(true);
     setProcessing(false);
@@ -135,7 +145,7 @@ function App() {
 
     setTimeout(() => {
       scrollTo("insights");
-    }, 100);
+    }, 150);
   };
 
   /*
@@ -199,6 +209,7 @@ function App() {
 
           <ProductInput
             onAnalyze={handleAnalyze}
+            onInspectProduct={handleViewHistory}
             processing={processing}
           />
 
@@ -294,7 +305,7 @@ function App() {
         <div className="footer-right">
           <span className="online-dot" />
           AI ENGINE ONLINE
-          <span>UniHack 2026</span>
+          <span>ProdNexus 2026</span>
         </div>
       </footer>
     </div>

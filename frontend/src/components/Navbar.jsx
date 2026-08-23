@@ -5,6 +5,7 @@ export default function Navbar({ onNavigate }) {
   return (
     <header className="navbar">
       <button
+        type="button"
         className="brand"
         onClick={() => onNavigate("engine")}
         style={{
@@ -19,19 +20,31 @@ export default function Navbar({ onNavigate }) {
       </button>
 
       <nav className="nav-links">
-        <button onClick={() => onNavigate("engine")}>
+        <button
+          type="button"
+          onClick={() => onNavigate("engine")}
+        >
           Overview
         </button>
 
-        <button onClick={() => onNavigate("analyze")}>
+        <button
+          type="button"
+          onClick={() => onNavigate("analyze")}
+        >
           Analyze
         </button>
 
-        <button onClick={() => onNavigate("insights")}>
+        <button
+          type="button"
+          onClick={() => onNavigate("insights")}
+        >
           Insights
         </button>
 
-        <button onClick={() => onNavigate("history")}>
+        <button
+          type="button"
+          onClick={() => onNavigate("history")}
+        >
           History
         </button>
       </nav>

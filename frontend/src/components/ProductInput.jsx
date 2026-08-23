@@ -2,12 +2,19 @@ import { useState } from "react";
 import "./ProductInput.css";
 import BulkBatchProcessor from "./BulkBatchProcessor";
 
-export default function ProductInput({ onAnalyze, processing, onBulkInspect }) {
+export default function ProductInput({
+  onAnalyze,
+  processing,
+  onInspectProduct,
+  onBulkInspect,
+}) {
   const [activeMode, setActiveMode] = useState("single"); // "single" | "bulk"
   const [description, setDescription] = useState("");
   const [mpn, setMpn] = useState("");
   const [brand, setBrand] = useState("");
   const [error, setError] = useState("");
+
+  const inspectHandler = onInspectProduct || onBulkInspect;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,8 +35,17 @@ export default function ProductInput({ onAnalyze, processing, onBulkInspect }) {
 
   return (
     <section className="input-section" id="product-input">
-      {/* 1. Status Bar & Mode Switcher */}
-      <div className="input-status-bar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+      {/* Status Bar & Mode Switcher */}
+      <div
+        className="input-status-bar"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "12px",
+        }}
+      >
         <div className="status-indicator">
           <span className={`status-orb ${processing ? "active" : ""}`}></span>
           <span>
@@ -56,7 +72,7 @@ export default function ProductInput({ onAnalyze, processing, onBulkInspect }) {
         </div>
       </div>
 
-      {/* 2. Mode Views */}
+      {/* Mode Views */}
       {activeMode === "single" ? (
         <form onSubmit={handleSubmit} className="product-form">
           <div className="form-grid">
@@ -179,7 +195,10 @@ export default function ProductInput({ onAnalyze, processing, onBulkInspect }) {
         </form>
       ) : (
         /* Render Bulk Batch Processor */
-        <BulkBatchProcessor onInspectProduct={onBulkInspect || onAnalyze} />
+        <BulkBatchProcessor
+          onInspectProduct={inspectHandler}
+          onAnalyze={onAnalyze}
+        />
       )}
     </section>
   );
